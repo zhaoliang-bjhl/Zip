@@ -160,7 +160,8 @@ public class Zip {
             unzGetCurrentFileInfo64(zip, &fileInfo, fileName, UInt(fileNameSize), nil, 0, nil, 0)
             fileName[Int(fileInfo.size_filename)] = 0
 
-            var pathString = String(cString: fileName)
+            let enc = CFStringConvertEncodingToNSStringEncoding(UInt32(CFStringEncodings.GB_18030_2000.rawValue))
+            var pathString = String(cString:fileName, encoding: String.Encoding(rawValue: enc)) ?? ""
             
             guard pathString.count > 0 else {
                 throw ZipError.unzipFail
